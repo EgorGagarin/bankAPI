@@ -2,9 +2,7 @@ package com.gagarin.bankAPI.controller;
 
 import com.gagarin.bankAPI.entity.User;
 import com.gagarin.bankAPI.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +19,11 @@ public class UsersController {
     @GetMapping
     public List<User> userList(){
         return userService.userList();
+    }
+
+    @PostMapping
+    public  void addUser(@RequestBody User user){
+        userService.addUser(user);
     }
 
 }
