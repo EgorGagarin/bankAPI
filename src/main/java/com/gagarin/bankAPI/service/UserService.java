@@ -5,6 +5,7 @@ import com.gagarin.bankAPI.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -19,12 +20,27 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void addUser(User user){
+    public void addUser(User user) {
         userRepository.save(user);
     }
 
-    public void deleteUser(Long userId){
+    public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }
 
+    public void updateUser(User user) {
+        Optional<User> row = userRepository.findById(user.getId());
+        if (row.isPresent()) {
+            User item = row.get();
+            if (!user.getUsername().isEmpty()) {
+                item.setUsername(user.getUsername());
+            }
+            if (user.getBalance() != null) {
+                item.setBalance(user.getBalance());
+            }
+            userRepository.save(item);
+        }
+    }
+
 }
+
