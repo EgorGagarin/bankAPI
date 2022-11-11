@@ -31,4 +31,9 @@ public class UsersController {
         userService.deleteUser(userId);
     }
 
+    @PutMapping
+    public void putUser(@RequestBody User user){
+        userService.updateUser(user);
+    }
+
 }
