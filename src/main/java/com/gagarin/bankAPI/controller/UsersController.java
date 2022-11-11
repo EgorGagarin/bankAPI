@@ -21,7 +21,7 @@ public class UsersController {
         return userService.userList();
     }
 
-    @PostMapping
+    @PostMapping(path = "item")
     public  void addUser(@RequestBody User user){
         userService.addUser(user);
     }
