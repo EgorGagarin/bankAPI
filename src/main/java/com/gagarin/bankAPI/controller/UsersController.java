@@ -5,6 +5,7 @@ import com.gagarin.bankAPI.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("users")
@@ -34,6 +35,11 @@ public class UsersController {
     @PutMapping
     public void updateUser(@RequestBody User user){
         userService.updateUser(user);
+    }
+
+    @GetMapping(path = "{userId}")
+    public Optional<User> getUser(@PathVariable("userId") Long userId) {
+        return userService.getUser(userId);
     }
 
 }
