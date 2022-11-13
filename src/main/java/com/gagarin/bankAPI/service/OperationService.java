@@ -2,10 +2,12 @@ package com.gagarin.bankAPI.service;
 
 import com.gagarin.bankAPI.entity.User;
 import com.gagarin.bankAPI.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
+@Service
 public class OperationService {
 
     private final UserRepository userRepository;
