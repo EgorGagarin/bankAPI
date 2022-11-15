@@ -62,4 +62,35 @@ public class OperationService {
         return "Added amount: " + putMoney;
     }
 
+    @Transactional
+    public String takeMoneyUser(Long userId, BigDecimal takeMoney) {
+        Optional<User> row = userRepository.findById(userId);
+
+        if (row.isPresent()) {
+            User item = row.get();
+            if (takeMoney.compareTo(BigDecimal.ZERO) > 0) {
+                BigDecimal currentBalance = item.getBalance();
+                if (takeMoney.compareTo(currentBalance) <= 0) {
+                    BigDecimal newBalance = currentBalance.subtract(takeMoney);
+                    item.setBalance(newBalance);
+                    userRepository.save(item);
+
+                    String operation = "Deducted";
+
+                    LocalDate date = LocalDate.now();
+
+                    OperationList operationListAdd = new OperationList(operation, takeMoney, date, item);
+                    operationListRepository.save(operationListAdd);
+                } else {
+                    return "Insufficient funds on the account";
+                }
+            } else {
+                return "Please enter a positive number greater than zero";
+            }
+        } else {
+            return "User with this id does not exist";
+        }
+        return "Deducted: " + takeMoney;
+    }
+
 }
