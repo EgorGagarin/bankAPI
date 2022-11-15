@@ -1,6 +1,7 @@
 package com.gagarin.bankAPI.controller;
 
 import com.gagarin.bankAPI.service.OperationService;
+import com.gagarin.bankAPI.service.TransferService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +14,11 @@ import java.math.BigDecimal;
 public class OperationController {
 
     private final OperationService operationService;
+    private final TransferService transferService;
 
-    public OperationController(OperationService operationService) {
+    public OperationController(OperationService operationService, TransferService transferService) {
         this.operationService = operationService;
+        this.transferService = transferService;
     }
 
     @GetMapping(path = "balance/{userId}")
@@ -33,6 +36,14 @@ public class OperationController {
     public String takeMoneyUser(@PathVariable("userId") Long userId,
                                 @PathVariable("takeMoney") BigDecimal takeMoney) {
         return operationService.takeMoneyUser(userId, takeMoney);
+    }
+
+    @GetMapping(path = "transfer/{userIdFrom}/{userIdFor}/{transferAmount}")
+    public String transferMoney(
+            @PathVariable("userIdFrom") Long userIdForm,
+            @PathVariable("userIdFor") Long userIdFor,
+            @PathVariable("transferAmount") BigDecimal transferAmount) {
+        return transferService.transferMoney(userIdForm, userIdFor, transferAmount);
     }
 
 }
