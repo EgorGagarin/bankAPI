@@ -29,4 +29,10 @@ public class OperationController {
         return operationService.putMoneyUser(userId, putMoney);
     }
 
+    @GetMapping(path = "deduct/{userId}/{takeMoney}")
+    public String takeMoneyUser(@PathVariable("userId") Long userId,
+                                @PathVariable("takeMoney") BigDecimal takeMoney) {
+        return operationService.takeMoneyUser(userId, takeMoney);
+    }
+
 }
