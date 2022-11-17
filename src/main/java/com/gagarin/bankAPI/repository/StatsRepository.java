@@ -1,11 +1,13 @@
 package com.gagarin.bankAPI.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public class StatsRepository {
     private final JdbcTemplate jdbcTemplate;
 
