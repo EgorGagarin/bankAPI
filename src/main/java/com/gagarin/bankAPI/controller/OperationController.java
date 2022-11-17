@@ -1,13 +1,15 @@
 package com.gagarin.bankAPI.controller;
 
 import com.gagarin.bankAPI.service.OperationService;
+import com.gagarin.bankAPI.service.StatsService;
 import com.gagarin.bankAPI.service.TransferService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "operation")
@@ -15,10 +17,12 @@ public class OperationController {
 
     private final OperationService operationService;
     private final TransferService transferService;
+    private final StatsService statsService;
 
-    public OperationController(OperationService operationService, TransferService transferService) {
+    public OperationController(OperationService operationService, TransferService transferService, StatsService statsService) {
         this.operationService = operationService;
         this.transferService = transferService;
+        this.statsService = statsService;
     }
 
     @GetMapping(path = "balance/{userId}")
@@ -44,6 +48,19 @@ public class OperationController {
             @PathVariable("userIdFor") Long userIdFor,
             @PathVariable("transferAmount") BigDecimal transferAmount) {
         return transferService.transferMoney(userIdForm, userIdFor, transferAmount);
+    }
+
+    @GetMapping(path = "getStats")
+    public List<Map<String, Object>> getOperationList(
+            @RequestParam(value = "userId") Long userId,
+
+            @RequestParam(value = "fromDate", required = false)
+            @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
+
+            @RequestParam(value = "beforeDate", required = false)
+            @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate beforeDate) {
+
+        return statsService.getOperationList(userId, fromDate, beforeDate);
     }
 
 }
