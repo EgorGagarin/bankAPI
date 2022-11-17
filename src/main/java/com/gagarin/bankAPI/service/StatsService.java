@@ -1,11 +1,13 @@
 package com.gagarin.bankAPI.service;
 
 import com.gagarin.bankAPI.repository.StatsRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class StatsService {
     private final StatsRepository statsRepository;
 
