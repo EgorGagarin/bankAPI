@@ -13,13 +13,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path = "operation")
-public class OperationController {
+public class OperationsController {
 
     private final OperationService operationService;
     private final TransferService transferService;
     private final StatsService statsService;
 
-    public OperationController(OperationService operationService, TransferService transferService, StatsService statsService) {
+    public OperationsController(OperationService operationService, TransferService transferService, StatsService statsService) {
         this.operationService = operationService;
         this.transferService = transferService;
         this.statsService = statsService;
