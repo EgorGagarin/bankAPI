@@ -1,5 +1,6 @@
-package com.gagarin.bankAPI;
+package com.gagarin.bankAPI.service;
 
+import com.gagarin.bankAPI.service.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
