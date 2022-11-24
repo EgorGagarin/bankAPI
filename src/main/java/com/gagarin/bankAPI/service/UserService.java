@@ -1,5 +1,6 @@
 package com.gagarin.bankAPI.service;
 
+import com.gagarin.bankAPI.UserNotFoundException;
 import com.gagarin.bankAPI.entity.User;
 import com.gagarin.bankAPI.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -42,8 +43,9 @@ public class UserService {
         }
     }
 
-    public Optional<User> getUser(Long userId) {
-        return userRepository.findById(userId);
+    public User getUser(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
     }
 
 }
