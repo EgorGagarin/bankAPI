@@ -2,10 +2,9 @@ package com.gagarin.bankAPI.controller;
 
 import com.gagarin.bankAPI.entity.User;
 import com.gagarin.bankAPI.service.UserService;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("users")
@@ -18,7 +17,7 @@ public class UsersController {
     }
 
     @GetMapping
-    public List<User> userList(){
+    public CollectionModel<EntityModel<User>> userList(){
         return userService.userList();
     }
 
