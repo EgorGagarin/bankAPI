@@ -2,10 +2,10 @@ package com.gagarin.bankAPI.controller;
 
 import com.gagarin.bankAPI.entity.User;
 import com.gagarin.bankAPI.service.UserService;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("users")
@@ -38,7 +38,7 @@ public class UsersController {
     }
 
     @GetMapping(path = "{userId}")
-    public User getUser(@PathVariable("userId") Long userId) {
+    public EntityModel<User> getUser(@PathVariable("userId") Long userId) {
         return userService.getUser(userId);
     }
 

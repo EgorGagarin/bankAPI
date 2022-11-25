@@ -1,12 +1,17 @@
 package com.gagarin.bankAPI.service;
 
 import com.gagarin.bankAPI.UserNotFoundException;
+import com.gagarin.bankAPI.controller.UsersController;
 import com.gagarin.bankAPI.entity.User;
 import com.gagarin.bankAPI.repository.UserRepository;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 public class UserService {
@@ -43,9 +48,12 @@ public class UserService {
         }
     }
 
-    public User getUser(Long userId) {
-        return userRepository.findById(userId)
+    public EntityModel<User> getUser(Long userId) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
+        return EntityModel.of(user,
+                linkTo(methodOn(UsersController.class).getUser(userId)).withSelfRel(),
+                linkTo(methodOn(UsersController.class).userList()).withRel("users"));
     }
 
 }
