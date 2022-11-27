@@ -28,9 +28,10 @@ public class UserService {
 
         List<EntityModel<User>> users = userRepository.findAll().stream()
                 .map(user -> EntityModel.of(user,
-                        linkTo(methodOn(UsersController.class).getUser(user.getId())).
-                        withSelfRel(),
-                        linkTo(methodOn(UsersController.class).userList()).withRel("users"))).collect(Collectors.toList());
+                        linkTo(methodOn(UsersController.class).getUser(user.getId()))
+                                .withSelfRel(),
+                        linkTo(methodOn(UsersController.class).userList()).withRel("users")))
+                .collect(Collectors.toList());
 
         return CollectionModel.of(users, linkTo(methodOn(UsersController.class).userList()).withSelfRel());
     }
