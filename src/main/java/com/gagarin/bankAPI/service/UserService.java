@@ -1,5 +1,6 @@
 package com.gagarin.bankAPI.service;
 
+import com.gagarin.bankAPI.UserModelAssembler;
 import com.gagarin.bankAPI.UserNotFoundException;
 import com.gagarin.bankAPI.controller.UsersController;
 import com.gagarin.bankAPI.entity.User;
@@ -19,21 +20,28 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserModelAssembler userModelAssembler;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserModelAssembler userModelAssembler) {
         this.userRepository = userRepository;
+        this.userModelAssembler = userModelAssembler;
+    }
+
+    public EntityModel<User> getUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+        return userModelAssembler.toModel(user);
     }
 
     public CollectionModel<EntityModel<User>> userList() {
 
         List<EntityModel<User>> users = userRepository.findAll().stream()
-                .map(user -> EntityModel.of(user,
-                        linkTo(methodOn(UsersController.class).getUser(user.getId()))
-                                .withSelfRel(),
-                        linkTo(methodOn(UsersController.class).userList()).withRel("users")))
+                .map(userModelAssembler::toModel)
                 .collect(Collectors.toList());
 
-        return CollectionModel.of(users, linkTo(methodOn(UsersController.class).userList()).withSelfRel());
+        return CollectionModel.of(users,
+                linkTo(methodOn(UsersController.class)
+                        .userList()).withSelfRel());
     }
 
     public void addUser(User user) {
@@ -56,14 +64,6 @@ public class UserService {
             }
             userRepository.save(item);
         }
-    }
-
-    public EntityModel<User> getUser(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId));
-        return EntityModel.of(user,
-                linkTo(methodOn(UsersController.class).getUser(userId)).withSelfRel(),
-                linkTo(methodOn(UsersController.class).userList()).withRel("users"));
     }
 
 }
