@@ -56,7 +56,7 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
-    public void updateUser(User user) {
+    public ResponseEntity<?> updateUser(User user) {
         Optional<User> row = userRepository.findById(user.getId());
         if (row.isPresent()) {
             User item = row.get();
@@ -68,6 +68,12 @@ public class UserService {
             }
             userRepository.save(item);
         }
+
+        EntityModel<User> entityModel = userModelAssembler.toModel(user);
+
+        return ResponseEntity //
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+                .body(entityModel);
     }
 
 }

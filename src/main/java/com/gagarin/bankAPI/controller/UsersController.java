@@ -33,8 +33,8 @@ public class UsersController {
     }
 
     @PutMapping
-    public void updateUser(@RequestBody User user){
-        userService.updateUser(user);
+    public ResponseEntity<?> updateUser(@RequestBody User user){
+        return userService.updateUser(user);
     }
 
     @GetMapping(path = "{userId}")
