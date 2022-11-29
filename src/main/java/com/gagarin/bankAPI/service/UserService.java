@@ -1,7 +1,5 @@
 package com.gagarin.bankAPI.service;
 
-import com.gagarin.bankAPI.UserModelAssembler;
-import com.gagarin.bankAPI.UserNotFoundException;
 import com.gagarin.bankAPI.controller.UsersController;
 import com.gagarin.bankAPI.entity.User;
 import com.gagarin.bankAPI.repository.UserRepository;

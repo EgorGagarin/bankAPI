@@ -1,4 +1,4 @@
-package com.gagarin.bankAPI;
+package com.gagarin.bankAPI.service;
 
 public class UserNotFoundException extends RuntimeException{
 

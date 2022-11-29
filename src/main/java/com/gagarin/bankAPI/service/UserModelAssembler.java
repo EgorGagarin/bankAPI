@@ -1,4 +1,4 @@
-package com.gagarin.bankAPI;
+package com.gagarin.bankAPI.service;
 
 import com.gagarin.bankAPI.controller.UsersController;
 import com.gagarin.bankAPI.entity.User;

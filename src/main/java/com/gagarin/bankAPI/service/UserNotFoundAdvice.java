@@ -1,4 +1,4 @@
-package com.gagarin.bankAPI;
+package com.gagarin.bankAPI.service;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
