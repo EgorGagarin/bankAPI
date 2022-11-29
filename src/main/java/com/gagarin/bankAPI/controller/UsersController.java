@@ -4,6 +4,7 @@ import com.gagarin.bankAPI.entity.User;
 import com.gagarin.bankAPI.service.UserService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,8 +23,8 @@ public class UsersController {
     }
 
     @PostMapping
-    public  void addUser(@RequestBody User user){
-        userService.addUser(user);
+    public ResponseEntity<?> addUser(@RequestBody User user){
+        return userService.addUser(user);
     }
 
     @DeleteMapping(path = "{userId}")

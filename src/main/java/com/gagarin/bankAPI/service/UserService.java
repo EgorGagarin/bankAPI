@@ -5,6 +5,8 @@ import com.gagarin.bankAPI.entity.User;
 import com.gagarin.bankAPI.repository.UserRepository;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,8 +44,12 @@ public class UserService {
                         .userList()).withSelfRel());
     }
 
-    public void addUser(User user) {
-        userRepository.save(user);
+    public ResponseEntity<?> addUser(User user) {
+        EntityModel<User> entityModel = userModelAssembler.toModel(userRepository.save(user));
+
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
     }
 
     public void deleteUser(Long userId) {
