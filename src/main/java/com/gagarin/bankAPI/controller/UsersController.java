@@ -18,23 +18,23 @@ public class UsersController {
     }
 
     @GetMapping
-    public CollectionModel<EntityModel<User>> userList(){
+    public CollectionModel<EntityModel<User>> userList() {
         return userService.userList();
     }
 
     @PostMapping
-    public ResponseEntity<?> addUser(@RequestBody User user){
+    public ResponseEntity<?> addUser(@RequestBody User user) {
         return userService.addUser(user);
     }
 
     @DeleteMapping(path = "{userId}")
-    public void deleteUser(@PathVariable("userId") Long userId){
+    public void deleteUser(@PathVariable("userId") Long userId) {
         userService.deleteUser(userId);
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateUser(@RequestBody User user){
-        return userService.updateUser(user);
+    @PutMapping(path = "{userId}")
+    public ResponseEntity<?> updateUser(@RequestBody User newUser, @PathVariable("userId") Long userId) {
+        return userService.updateUser(newUser, userId);
     }
 
     @GetMapping(path = "{userId}")

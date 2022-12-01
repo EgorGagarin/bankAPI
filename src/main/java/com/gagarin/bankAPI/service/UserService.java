@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -56,23 +55,18 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
-    public ResponseEntity<?> updateUser(User user) {
-        Optional<User> row = userRepository.findById(user.getId());
-        if (row.isPresent()) {
-            User item = row.get();
-            if (!user.getUsername().isEmpty()) {
-                item.setUsername(user.getUsername());
-            }
-            if (user.getBalance() != null) {
-                item.setBalance(user.getBalance());
-            }
-            userRepository.save(item);
-        }
+    public ResponseEntity<?> updateUser(User newUser, Long userId) {
+        User updatedUser = userRepository.findById(userId)
+                .map(user -> {
+                    user.setUsername(newUser.getUsername());
+                    user.setBalance(newUser.getBalance());
+                    return userRepository.save(user);
+                }).orElseThrow(() -> new UserNotFoundException(userId));
 
-        EntityModel<User> entityModel = userModelAssembler.toModel(user);
+        EntityModel<User> entityModel = userModelAssembler.toModel(updatedUser);
 
-        return ResponseEntity //
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
 
