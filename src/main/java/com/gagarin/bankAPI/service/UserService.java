@@ -51,8 +51,10 @@ public class UserService {
                 .body(entityModel);
     }
 
-    public void deleteUser(Long userId) {
+    public ResponseEntity<?> deleteUser(Long userId) {
         userRepository.deleteById(userId);
+
+        return ResponseEntity.noContent().build();
     }
 
     public ResponseEntity<?> updateUser(User newUser, Long userId) {
