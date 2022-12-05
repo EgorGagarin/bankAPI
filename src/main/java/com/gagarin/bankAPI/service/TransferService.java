@@ -60,7 +60,8 @@ public class TransferService {
                         operationListRepository.save(operationListAddUserFor);
 
                     } else {
-                        return "User with this id does not exist";
+                        //return "User with this id does not exist";
+                        throw new UserNotFoundException(userIdFor);
                     }
                 } else {
                     return "Insufficient funds on the account";
@@ -69,7 +70,8 @@ public class TransferService {
                 return "Please enter a positive number greater than zero";
             }
         } else {
-            return "User with this id does not exist";
+            //return "User with this id does not exist";
+            throw new UserNotFoundException(userIdFrom);
         }
         return "Transferred " + transferAmount + ", from user " + userIdFrom + " to user " + userIdFor;
     }
