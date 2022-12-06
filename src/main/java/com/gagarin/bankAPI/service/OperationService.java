@@ -30,7 +30,7 @@ public class OperationService {
             BigDecimal userBalance = user.getBalance();
             return "Balance: " + userBalance;
         } else {
-            return "User with this id does not exist";
+            throw new UserNotFoundException(userId);
         }
     }
 
@@ -57,7 +57,7 @@ public class OperationService {
                 return "Please enter a positive number greater than zero";
             }
         } else {
-            return "User with this id does not exist";
+            throw new UserNotFoundException(userId);
         }
         return "Added amount: " + putMoney;
     }
@@ -88,7 +88,7 @@ public class OperationService {
                 return "Please enter a positive number greater than zero";
             }
         } else {
-            return "User with this id does not exist";
+            throw new UserNotFoundException(userId);
         }
         return "Deducted: " + takeMoney;
     }
