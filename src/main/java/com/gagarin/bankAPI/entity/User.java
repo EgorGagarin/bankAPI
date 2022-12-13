@@ -26,6 +26,12 @@ public class User {
         this.id = id;
     }
 
+    public User(Long id, String username, BigDecimal balance) {
+        this.id = id;
+        this.username = username;
+        this.balance = balance;
+    }
+
     public Long getId() {
         return id;
     }
@@ -46,4 +52,7 @@ public class User {
         this.balance = balance;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
