@@ -26,12 +26,6 @@ public class UserService {
         this.userModelAssembler = userModelAssembler;
     }
 
-    public EntityModel<User> getUser(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId));
-        return userModelAssembler.toModel(user);
-    }
-
     public CollectionModel<EntityModel<User>> userList() {
 
         List<EntityModel<User>> users = userRepository.findAll().stream()
@@ -70,6 +64,12 @@ public class UserService {
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
+    }
+
+    public EntityModel<User> getUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+        return userModelAssembler.toModel(user);
     }
 
 }
