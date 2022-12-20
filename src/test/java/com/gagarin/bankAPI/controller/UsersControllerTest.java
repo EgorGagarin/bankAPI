@@ -6,11 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -31,17 +33,28 @@ class UsersControllerTest {
 
     @Test
     void userList() throws Exception {
-        this.mockMvc.perform(get("/users/"))
+        List<EntityModel<User>> users = List.of(
+                EntityModel.of(new User(1L, "Aleks", BigDecimal.valueOf(1000))),
+                EntityModel.of(new User(2L, "Ben", BigDecimal.valueOf(2000))),
+                EntityModel.of(new User(3L, "Sveta", BigDecimal.valueOf(3000))),
+                EntityModel.of(new User(4L, "Kola", BigDecimal.valueOf(4000))),
+                EntityModel.of(new User(5L, "Oly", BigDecimal.valueOf(5000)))
+        );
+        when(userService.userList())
+                .thenReturn(CollectionModel.of(users));
+        this.mockMvc.perform(get("/users"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"_embedded\":{\"userList\":[{\"id\":1,\"username\":\"Aleks\",\"balance\":1000},{\"id\":2,\"username\":\"Ben\",\"balance\":2000},{\"id\":3,\"username\":\"Sveta\",\"balance\":3000},{\"id\":4,\"username\":\"Kola\",\"balance\":4000},{\"id\":5,\"username\":\"Oly\",\"balance\":5000}]}}"));
     }
 
     @Test
     void getUser() throws Exception {
         User user = new User(1L, "Aleks", BigDecimal.valueOf(1000));
-        when(userService.getUser(1l))
+        when(userService.getUser(1L))
                 .thenReturn(EntityModel.of(user));
-        this.mockMvc.perform(get("/users/1").accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get("/users/1")
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"id\":1, \"username\":\"Aleks\", \"balance\":1000}"));
