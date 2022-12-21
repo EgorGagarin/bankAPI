@@ -42,10 +42,39 @@ class UsersControllerTest {
         );
         when(userService.userList())
                 .thenReturn(CollectionModel.of(users));
-        this.mockMvc.perform(get("/users"))
+        this.mockMvc.perform(get("/users")
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\"_embedded\":{\"userList\":[{\"id\":1,\"username\":\"Aleks\",\"balance\":1000},{\"id\":2,\"username\":\"Ben\",\"balance\":2000},{\"id\":3,\"username\":\"Sveta\",\"balance\":3000},{\"id\":4,\"username\":\"Kola\",\"balance\":4000},{\"id\":5,\"username\":\"Oly\",\"balance\":5000}]}}"));
+                .andExpect(content().json("""
+                        {"_embedded":
+                        {"userList":[
+                        {
+                        "id":1,
+                        "username":"Aleks",
+                        "balance":1000
+                        },
+                        {
+                        "id":2,
+                        "username":"Ben",
+                        "balance":2000
+                        },
+                        {
+                        "id":3,
+                        "username":"Sveta",
+                        "balance":3000
+                        },
+                        {
+                        "id":4,
+                        "username":"Kola",
+                        "balance":4000
+                        },
+                        {
+                        "id":5,
+                        "username":"Oly",
+                        "balance":5000
+                        }]}}
+                        """));
     }
 
     @Test
