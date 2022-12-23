@@ -1,5 +1,6 @@
 package com.gagarin.bankAPI.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gagarin.bankAPI.entity.User;
 import com.gagarin.bankAPI.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -8,7 +9,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -16,6 +19,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -78,15 +82,32 @@ class UsersControllerTest {
     }
 
     @Test
+    void addUser() throws Exception {
+        User user = new User(1L, "Aleks", BigDecimal.valueOf(1000));
+
+        when(userService.addUser(user))
+                .thenReturn(new ResponseEntity(HttpStatus.OK));
+
+        this.mockMvc.perform(
+                post("/users")
+                        .content(new ObjectMapper().writeValueAsString(user))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
     void getUser() throws Exception {
         User user = new User(1L, "Aleks", BigDecimal.valueOf(1000));
         when(userService.getUser(1L))
                 .thenReturn(EntityModel.of(user));
-        this.mockMvc.perform(get("/users/1")
-                .accept(MediaType.APPLICATION_JSON))
+        this.mockMvc
+                .perform(get("/users/1")
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"id\":1, \"username\":\"Aleks\", \"balance\":1000}"));
-
     }
+
 }
