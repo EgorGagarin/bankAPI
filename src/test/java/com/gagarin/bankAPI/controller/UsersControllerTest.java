@@ -86,7 +86,7 @@ class UsersControllerTest {
         User user = new User(1L, "Aleks", BigDecimal.valueOf(1000));
 
         when(userService.addUser(user))
-                .thenReturn(new ResponseEntity(HttpStatus.OK));
+                .thenReturn(new ResponseEntity<>(HttpStatus.OK));
 
         this.mockMvc.perform(
                 post("/users")
