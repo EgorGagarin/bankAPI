@@ -110,8 +110,24 @@ class UsersControllerTest {
     }
 
     @Test
+    void updateUser() throws Exception{
+        User newUser = new User("Ivan", BigDecimal.valueOf(10000));
+
+        when(userService.updateUser(newUser, 1L))
+                .thenReturn(new ResponseEntity(HttpStatus.OK));
+        this.mockMvc
+                .perform(put("/users/1")
+                        .content(new ObjectMapper().writeValueAsString(newUser))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
     void getUser() throws Exception {
         User user = new User(1L, "Aleks", BigDecimal.valueOf(1000));
+
         when(userService.getUser(1L))
                 .thenReturn(EntityModel.of(user));
         this.mockMvc
