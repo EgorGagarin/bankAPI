@@ -100,7 +100,7 @@ class UsersControllerTest {
     void deleteUser() throws Exception {
 
         when(userService.deleteUser(1L))
-                .thenReturn(new ResponseEntity(HttpStatus.OK));
+                .thenReturn(new ResponseEntity<>(HttpStatus.OK));
 
         this.mockMvc
                 .perform(delete("/users/1")
@@ -114,7 +114,7 @@ class UsersControllerTest {
         User newUser = new User("Ivan", BigDecimal.valueOf(10000));
 
         when(userService.updateUser(newUser, 1L))
-                .thenReturn(new ResponseEntity(HttpStatus.OK));
+                .thenReturn(new ResponseEntity<>(HttpStatus.OK));
         this.mockMvc
                 .perform(put("/users/1")
                         .content(new ObjectMapper().writeValueAsString(newUser))
