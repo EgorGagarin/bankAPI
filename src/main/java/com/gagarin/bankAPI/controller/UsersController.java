@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/")
 public class UsersController {
 
     private final UserService userService;
@@ -17,27 +17,27 @@ public class UsersController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("users")
     public CollectionModel<EntityModel<User>> userList() {
         return userService.userList();
     }
 
-    @PostMapping
+    @PostMapping("users")
     public ResponseEntity<?> addUser(@RequestBody User user) {
         return userService.addUser(user);
     }
 
-    @DeleteMapping(path = "{userId}")
+    @DeleteMapping(path = "users/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable("userId") Long userId) {
         return userService.deleteUser(userId);
     }
 
-    @PutMapping(path = "{userId}")
+    @PutMapping(path = "users/{userId}")
     public ResponseEntity<?> updateUser(@RequestBody User newUser, @PathVariable("userId") Long userId) {
         return userService.updateUser(newUser, userId);
     }
 
-    @GetMapping(path = "{userId}")
+    @GetMapping(path = "users/{userId}")
     public EntityModel<User> getUser(@PathVariable("userId") Long userId) {
         return userService.getUser(userId);
     }
