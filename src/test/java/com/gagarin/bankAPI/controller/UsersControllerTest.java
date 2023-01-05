@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -84,6 +85,7 @@ class UsersControllerTest {
     }
 
     @Test
+    @WithMockUser
     void addUser() throws Exception {
         User user = new User(1L, "Aleks", BigDecimal.valueOf(1000));
 
@@ -92,6 +94,7 @@ class UsersControllerTest {
 
         this.mockMvc.perform(
                 post("/users")
+                        .with(csrf())
                         .content(new ObjectMapper().writeValueAsString(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
