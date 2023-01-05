@@ -49,7 +49,7 @@ class UsersControllerTest {
         when(userService.userList())
                 .thenReturn(CollectionModel.of(users));
         this.mockMvc.perform(get("/users")
-                .with(user("user").password("password").roles("USER"))
+                .with(user("admin").password("password").roles("ADMIN"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -85,7 +85,7 @@ class UsersControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "ADMIN")
     void addUser() throws Exception {
         User user = new User(1L, "Aleks", BigDecimal.valueOf(1000));
 
@@ -103,6 +103,7 @@ class UsersControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     void deleteUser() throws Exception {
 
         when(userService.deleteUser(1L))
@@ -110,12 +111,14 @@ class UsersControllerTest {
 
         this.mockMvc
                 .perform(delete("/users/1")
+                        .with(csrf())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     void updateUser() throws Exception{
         User newUser = new User("Ivan", BigDecimal.valueOf(10000));
 
@@ -123,6 +126,7 @@ class UsersControllerTest {
                 .thenReturn(new ResponseEntity<>(HttpStatus.OK));
         this.mockMvc
                 .perform(put("/users/1")
+                        .with(csrf())
                         .content(new ObjectMapper().writeValueAsString(newUser))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
