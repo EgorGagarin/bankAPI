@@ -1,4 +1,4 @@
-package com.gagarin.bankAPI.security.service;
+package com.gagarin.bankAPI.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gagarin.bankAPI.entity.User;
