@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "operation")
+@RequestMapping(path = "/api/operation")
 public class OperationsController {
 
     private final OperationService operationService;
