@@ -5,10 +5,12 @@ import com.gagarin.bankAPI.service.UserService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/")
+@PreAuthorize("hasRole('ADMIN')")
 public class UsersController {
 
     private final UserService userService;
