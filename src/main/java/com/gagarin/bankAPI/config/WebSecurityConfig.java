@@ -1,4 +1,4 @@
-package com.gagarin.bankAPI.security.config;
+package com.gagarin.bankAPI.config;
 
 import com.gagarin.bankAPI.security.jwt.AuthEntryPointJwt;
 import com.gagarin.bankAPI.security.jwt.AuthTokenFilter;
