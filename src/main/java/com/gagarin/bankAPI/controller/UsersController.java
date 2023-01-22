@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/")
-@PreAuthorize("hasRole('ADMIN')")
 public class UsersController {
 
     private final UserService userService;
@@ -20,26 +19,31 @@ public class UsersController {
     }
 
     @GetMapping("users")
+    @PreAuthorize("hasRole('ADMIN')")
     public CollectionModel<EntityModel<User>> userList() {
         return userService.userList();
     }
 
     @PostMapping("users")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addUser(@RequestBody User user) {
         return userService.addUser(user);
     }
 
     @DeleteMapping(path = "users/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable("userId") Long userId) {
         return userService.deleteUser(userId);
     }
 
     @PutMapping(path = "users/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateUser(@RequestBody User newUser, @PathVariable("userId") Long userId) {
         return userService.updateUser(newUser, userId);
     }
 
     @GetMapping(path = "users/{userId}")
+    @PreAuthorize("hasRole('ADMIN') or #userId == authentication.principal.getId")
     public EntityModel<User> getUser(@PathVariable("userId") Long userId) {
         return userService.getUser(userId);
     }
