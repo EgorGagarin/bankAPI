@@ -1,6 +1,7 @@
 package com.gagarin.bankAPI.controller;
 
 import com.gagarin.bankAPI.entity.User;
+import com.gagarin.bankAPI.security.pojo.SignupRequest;
 import com.gagarin.bankAPI.service.UserService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -26,8 +27,8 @@ public class UsersController {
 
     @PostMapping("users")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> addUser(@RequestBody User user) {
-        return userService.addUser(user);
+    public ResponseEntity<?> addUser(@RequestBody SignupRequest signupRequest) {
+        return userService.addUser(signupRequest);
     }
 
     @DeleteMapping(path = "users/{userId}")
