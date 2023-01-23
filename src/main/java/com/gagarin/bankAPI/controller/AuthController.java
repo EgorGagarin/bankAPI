@@ -1,4 +1,4 @@
-package com.gagarin.bankAPI.security.controller;
+package com.gagarin.bankAPI.controller;
 
 import com.gagarin.bankAPI.security.jwt.JwtUtils;
 import com.gagarin.bankAPI.entity.ERole;
