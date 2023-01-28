@@ -1,12 +1,12 @@
 # bankAPI;
 
-##Target
+## Target
 
 Implement an API for working with a bank account
 
 Use: Spring Boot, maven, postgresql
 
-##Project description
+## Project description
 
  The following operations will be available:
 
@@ -16,7 +16,7 @@ Use: Spring Boot, maven, postgresql
  * Display a list of transactions for the selected period;
  * Transfer the specified amount to another user.
 
-##To check the work you need:
+## To check the work you need:
 * Create database bank_api_db
 * Set up the application.properties file to connect to the database
   
@@ -35,7 +35,7 @@ Use: Spring Boot, maven, postgresql
   INSERT INTO roles VALUES(3, 'ROLE_ADMIN');
 
 
-##For authentication
+## For authentication
 (I use postman)
 * POST http://localhost:8080/api/auth/login
   
@@ -50,14 +50,14 @@ Use: Spring Boot, maven, postgresql
 }
  ![img.png](img.png)
 
-##For authorization
+## For authorization
 To authorize the user, add Bearer Token by copying
 from the response to the authentication request
 ![img_1.png](img_1.png)
 
 ![img_2.png](img_2.png)
 
-##User operations
+## User operations
 * Get a list of users
   
   GET http://localhost:8080/api/users
