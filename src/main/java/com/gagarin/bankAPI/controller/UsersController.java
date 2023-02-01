@@ -26,7 +26,7 @@ public class UsersController {
     }
 
     @PostMapping("users")
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addUser(@RequestBody SignupRequest signupRequest) {
         return userService.addUser(signupRequest);
     }
