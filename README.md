@@ -1,13 +1,13 @@
 # bankAPI;
 
-##Target
+## Target
 
 * Implement an API for working with a bank account
 * Implement authentication and authorization
 
 Use: Spring Boot, maven, postgresql
 
-##Project description
+## Project description
 
 The following operations are available:
 
@@ -17,7 +17,7 @@ The following operations are available:
 * Display a list of transactions for the selected period;
 * Transfer the specified amount to another user.
 
-##Check the application:
+## Check the application:
 * Create database bank_api_db
 * Set up the application.properties file to connect to the database.
   
@@ -88,7 +88,7 @@ INSERT INTO operation_list VALUES (13, '2022-10-08',100.00, 'Contributed', 2);
 
 INSERT INTO operation_list VALUES (14, '2022-10-09',300.00, 'Deducted', 1);
 
-##For authentication
+## For authentication
 (I use postman)
  POST http://localhost:8080/api/auth/login
   
@@ -103,7 +103,7 @@ INSERT INTO operation_list VALUES (14, '2022-10-09',300.00, 'Deducted', 1);
 }
  ![img.png](img.png)
 
-##For authorization
+## For authorization
 To authorize the user, add Bearer Token by copying
 from the response to the authentication request
 
@@ -111,7 +111,7 @@ from the response to the authentication request
 
 ![img_2.png](img_2.png)
 
-##User operations
+## User operations
 * Get a list of users
   (only ADMIN)
   
@@ -148,7 +148,7 @@ from the response to the authentication request
   
   PUT http://localhost:8080/api/users/{{userId}}
 
-##Account transactions
+## Account transactions
 
 * Getting the user's balance 
   (only ADMIN or USER with {userId})
