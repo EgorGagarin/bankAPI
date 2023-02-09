@@ -4,7 +4,6 @@ import com.gagarin.bankAPI.entity.OperationList;
 import com.gagarin.bankAPI.entity.User;
 import com.gagarin.bankAPI.repository.OperationListRepository;
 import com.gagarin.bankAPI.repository.UserRepository;
-import com.gagarin.bankAPI.security.pojo.MessageResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,11 +30,11 @@ public class OperationService {
 
         BigDecimal userBalance = user.getBalance();
 
-        return ResponseEntity.ok(new MessageResponse("Balance: " + userBalance));
+        return ResponseEntity.ok("Balance: " + userBalance);
     }
 
     @Transactional
-    public String putMoneyUser(Long userId, BigDecimal putMoney) {
+    public ResponseEntity<?> putMoneyUser(Long userId, BigDecimal putMoney) {
         Optional<User> row = userRepository.findById(userId);
 
         if (row.isPresent()) {
@@ -54,12 +53,13 @@ public class OperationService {
                 operationListRepository.save(operationListAdd);
 
             } else {
-                return "Please enter a positive number greater than zero";
+                return ResponseEntity.badRequest()
+                        .body("Please enter a positive number greater than zero");
             }
         } else {
             throw new UserNotFoundException(userId);
         }
-        return "Added amount: " + putMoney;
+        return ResponseEntity.ok("Added amount: " + putMoney);
     }
 
     @Transactional

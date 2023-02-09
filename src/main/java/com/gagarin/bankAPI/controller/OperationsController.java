@@ -35,7 +35,7 @@ public class OperationsController {
 
     @GetMapping(path = "refill/{userId}/{putMoney}")
     @PreAuthorize("hasRole('ADMIN') or #userId == authentication.principal.getId")
-    public String putMoneyUser(@PathVariable("userId") Long userId,
+    public ResponseEntity<?> putMoneyUser(@PathVariable("userId") Long userId,
                                @PathVariable("putMoney") BigDecimal putMoney) {
         return operationService.putMoneyUser(userId, putMoney);
     }
