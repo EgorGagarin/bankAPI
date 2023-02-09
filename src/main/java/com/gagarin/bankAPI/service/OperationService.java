@@ -4,6 +4,8 @@ import com.gagarin.bankAPI.entity.OperationList;
 import com.gagarin.bankAPI.entity.User;
 import com.gagarin.bankAPI.repository.OperationListRepository;
 import com.gagarin.bankAPI.repository.UserRepository;
+import com.gagarin.bankAPI.security.pojo.MessageResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,16 +24,14 @@ public class OperationService {
         this.operationListRepository = operationListRepository;
     }
 
-    public String getBalanceUser(Long userId) {
-        Optional<User> row = userRepository.findById(userId);
+    public ResponseEntity<?> getBalanceUser(Long userId) {
 
-        if (row.isPresent()) {
-            User user = row.get();
-            BigDecimal userBalance = user.getBalance();
-            return "Balance: " + userBalance;
-        } else {
-            throw new UserNotFoundException(userId);
-        }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+
+        BigDecimal userBalance = user.getBalance();
+
+        return ResponseEntity.ok(new MessageResponse("Balance: " + userBalance));
     }
 
     @Transactional

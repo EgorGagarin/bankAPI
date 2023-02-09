@@ -4,6 +4,7 @@ import com.gagarin.bankAPI.service.OperationService;
 import com.gagarin.bankAPI.service.StatsService;
 import com.gagarin.bankAPI.service.TransferService;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class OperationsController {
 
     @GetMapping(path = "balance/{userId}")
     @PreAuthorize("hasRole('ADMIN') or #userId == authentication.principal.getId")
-    public String getBalanceUser(@PathVariable("userId") Long userId) {
+    public ResponseEntity<?> getBalanceUser(@PathVariable("userId") Long userId) {
         return operationService.getBalanceUser(userId);
     }
 
