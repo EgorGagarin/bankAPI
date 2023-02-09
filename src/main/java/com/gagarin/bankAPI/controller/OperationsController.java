@@ -34,16 +34,18 @@ public class OperationsController {
     }
 
     @GetMapping(path = "refill/{userId}/{putMoney}")
-    @PreAuthorize("hasRole('ADMIN') or #userId == authentication.principal.getId")
-    public ResponseEntity<?> putMoneyUser(@PathVariable("userId") Long userId,
-                               @PathVariable("putMoney") BigDecimal putMoney) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> putMoneyUser(
+            @PathVariable("userId") Long userId,
+            @PathVariable("putMoney") BigDecimal putMoney) {
         return operationService.putMoneyUser(userId, putMoney);
     }
 
     @GetMapping(path = "deduct/{userId}/{takeMoney}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> takeMoneyUser(@PathVariable("userId") Long userId,
-                                @PathVariable("takeMoney") BigDecimal takeMoney) {
+    public ResponseEntity<?> takeMoneyUser(
+            @PathVariable("userId") Long userId,
+            @PathVariable("takeMoney") BigDecimal takeMoney) {
         return operationService.takeMoneyUser(userId, takeMoney);
     }
 
