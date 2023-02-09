@@ -4,6 +4,7 @@ import com.gagarin.bankAPI.entity.OperationList;
 import com.gagarin.bankAPI.entity.User;
 import com.gagarin.bankAPI.repository.OperationListRepository;
 import com.gagarin.bankAPI.repository.UserRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +24,7 @@ public class TransferService {
     }
 
     @Transactional
-    public String transferMoney(Long userIdFrom, Long userIdFor, BigDecimal transferAmount) {
+    public ResponseEntity<?> transferMoney(Long userIdFrom, Long userIdFor, BigDecimal transferAmount) {
         Optional<User> rowUserFrom = userRepository.findById(userIdFrom);
         Optional<User> rowUserFor = userRepository.findById(userIdFor);
 
@@ -63,15 +64,16 @@ public class TransferService {
                         throw new UserNotFoundException(userIdFor);
                     }
                 } else {
-                    return "Insufficient funds on the account";
+                    return ResponseEntity.ok("Insufficient funds on the account");
                 }
             } else {
-                return "Please enter a positive number greater than zero";
+                return ResponseEntity.badRequest()
+                        .body("Please enter a positive number greater than zero");
             }
         } else {
             throw new UserNotFoundException(userIdFrom);
         }
-        return "Transferred " + transferAmount + ", from user " + userIdFrom + " to user " + userIdFor;
+        return ResponseEntity.ok("Transferred " + transferAmount + ", from user " + userIdFrom + " to user " + userIdFor);
     }
 
 }

@@ -51,7 +51,7 @@ public class OperationsController {
 
     @GetMapping(path = "transfer/{userIdFrom}/{userIdFor}/{transferAmount}")
     @PreAuthorize("hasRole('ADMIN') or #userIdForm == authentication.principal.getId")
-    public String transferMoney(
+    public ResponseEntity<?> transferMoney(
             @PathVariable("userIdFrom") Long userIdForm,
             @PathVariable("userIdFor") Long userIdFor,
             @PathVariable("transferAmount") BigDecimal transferAmount) {
