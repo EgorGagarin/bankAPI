@@ -42,7 +42,7 @@ public class OperationsController {
 
     @GetMapping(path = "deduct/{userId}/{takeMoney}")
     @PreAuthorize("hasRole('ADMIN')")
-    public String takeMoneyUser(@PathVariable("userId") Long userId,
+    public ResponseEntity<?> takeMoneyUser(@PathVariable("userId") Long userId,
                                 @PathVariable("takeMoney") BigDecimal takeMoney) {
         return operationService.takeMoneyUser(userId, takeMoney);
     }

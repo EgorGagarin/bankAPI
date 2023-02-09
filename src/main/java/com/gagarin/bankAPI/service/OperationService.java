@@ -63,7 +63,7 @@ public class OperationService {
     }
 
     @Transactional
-    public String takeMoneyUser(Long userId, BigDecimal takeMoney) {
+    public ResponseEntity<?> takeMoneyUser(Long userId, BigDecimal takeMoney) {
         Optional<User> row = userRepository.findById(userId);
 
         if (row.isPresent()) {
@@ -82,15 +82,16 @@ public class OperationService {
                     OperationList operationListAdd = new OperationList(operation, takeMoney, date, item);
                     operationListRepository.save(operationListAdd);
                 } else {
-                    return "Insufficient funds on the account";
+                    return ResponseEntity.ok("Insufficient funds on the account");
                 }
             } else {
-                return "Please enter a positive number greater than zero";
+                return ResponseEntity.badRequest()
+                        .body("Please enter a positive number greater than zero");
             }
         } else {
             throw new UserNotFoundException(userId);
         }
-        return "Deducted: " + takeMoney;
+        return ResponseEntity.ok("Deducted: " + takeMoney);
     }
 
 }
